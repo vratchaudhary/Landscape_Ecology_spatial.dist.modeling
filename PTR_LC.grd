@@ -1,0 +1,26 @@
+[general]
+creator=R package 'raster'
+created=2017-10-23 17:20:11
+[georeference]
+nrows=1725
+ncols=2587
+xmin=92.5500851679582
+ymin=26.9000261156722
+xmax=93.1499639824757
+ymax=27.3000226193667
+projection=+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0
+[data]
+datatype=FLT8S
+byteorder=little
+nbands=1
+bandorder=BIL
+categorical=FALSE
+minvalue=0
+maxvalue=190
+nodatavalue=-1.7e+308
+[legend]
+legendtype=
+values=
+color=
+[description]
+layername=BIS_VG_India_final
