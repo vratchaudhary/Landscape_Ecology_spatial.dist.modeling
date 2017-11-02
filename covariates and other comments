@@ -1,0 +1,18 @@
+Covariates we can add
+1. Distance of the camera trap from the boundary
+2. Nearest distance from the water
+3. Elevation
+4. NDVI
+5. Distance of the village from the camera trap
+6. Habitat type
+
+
+##things to do
+##vratika
+1. Find the village location (COORDIANTES)
+2. Water shape file
+2
+##Marta
+1. Extract the landscape categories
+
+##spatial autocorrlation occupancy model package
