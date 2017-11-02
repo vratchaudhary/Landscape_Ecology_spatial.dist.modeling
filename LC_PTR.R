@@ -1,11 +1,13 @@
 #Code for clipping the India Land Cover map for the PTR
 
 #---- Set working directory
+setwd("/Users/martaprat/Documents//LandscapeEcology/Landscape_Ecology")
 setwd("C://Users//mprat//Documents//LandEco-India//Landscape_Ecology")
 
 #---- libraries
 library(raster)
 library(rgdal)
+
 
 #opern raster layer from all India
 ras <- raster("F:/BIS_BR_VEG_mosaic/BIS_VG_India_final.tif")
@@ -28,4 +30,17 @@ extent(PTR.LC)
 
 
 #save
-writeRaster(PTR.LC6, filename = "PTR_LC")
+writeRaster(PTR.LC, filename = "PTR_LC")
+
+
+
+##--- read the necessary maps
+cam.trap <- readOGR("./Shapefiles/2013-14/Camera Trap Locations 2013-14.shp")
+LC <- raster("PTR_LC")
+projection(LC)
+projection(cam.trap)
+
+#change projection for the camera traps
+cam.trap <- spTransform(cam.trap, CRS(projection(LC)))
+plot(LC)
+plot(cam.trap, add=T)
