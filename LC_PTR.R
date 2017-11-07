@@ -10,13 +10,14 @@ library(sp)
 library(raster)
 library(rgdal)
 
-<<<<<<< HEAD
+#<<<<<<< HEAD
 
 
-=======
+#=======
 ######### ------ Clip India raster into PTR
->>>>>>> 4d9ab03e57667950e463cf55feffa270b03fe1aa
+#>>>>>>># 4d9ab03e57667950e463cf55feffa270b03fe1aa
 #opern raster layer from all India
+
 ras <- raster("F:/BIS_BR_VEG_mosaic/BIS_VG_India_final.tif")
 plot(ras)
 projection(ras) #check projection
