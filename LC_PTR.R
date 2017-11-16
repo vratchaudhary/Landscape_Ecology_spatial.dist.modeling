@@ -64,6 +64,7 @@ reclas <- data.frame(habitat = c("-","Sub-tropical broadleaved evergreen","Himal
 ######### ------ Plot camera location into PTR
 ##--- read the necessary maps
 cam.trap <- readOGR("./Shapefiles/2013-14/Camera Trap Locations 2013-14.shp")
+cam.trap$x_coord
 LC <- raster("PTR_LC")
 projection(LC)
 projection(cam.trap)
