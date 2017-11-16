@@ -36,10 +36,30 @@ project(PTR.INW.l)
 plot(PTR.INW.l)
 
 #open shapefile for PTR
-PTR.limit <- readOGR("./Shapefiles/2013-14/Pakke Tiger Reserve Boundary.shp")
+PTR.limit <- readOGR("./2013-14/Pakke Tiger Reserve Boundary.shp")
 projection(PTR.limit) #check projection is the same
+plot(PTR.limit, add=TRUE)
+#plot(PTR.limit, col = "black", add = TRUE)
+
+##open camera trap shapefile
+PTR.CT <- readOGR("./2013-14/Camera Trap Locations 2013-14.shp")
+projection(PTR.CT) #check projection is the same
+spTransform(PTR.CT,"+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
+plot(PTR.limit,  add = TRUE)
+points(PTR.CT, add= TRUE)
+
+
+#turn a village csv into a spatial object
+df.vill<-read.csv("village_pakke.csv", header=T)
+head(df.vill)
+coordinates(df.vill) <- (df.vill$lat+df.vill$long) #columns that correspond to the lat/long in the csv
+proj4string(df.vill) = CRS("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0 ") #geogrpahic cooridnate system
+#don't use projected yet, becuase it needs to read using lat/long first. You can project after
+class(df.vill)
+project(df.vill)
+
 plot(PTR.limit)
-plot(PTR.limit, col = "black", add = TRUE)
+points(df.vill)
 
 
 #crop
