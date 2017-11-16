@@ -2,20 +2,23 @@
 
 #---- Set working directory
 #setwd("/Users/martaprat/Documents//LandscapeEcology/Landscape_Ecology")
-#setwd("C://Users//mprat//Documents//LandEco-India//Landscape_Ecology")
+setwd("C://Users//mprat//Documents//LandEco-India//Landscape_Ecology")
 
 #---- libraries
-install.packages("sp")
 library(sp)
 library(raster)
 library(rgdal)
 
+<<<<<<< HEAD
+######### ------ Clip India raster into PTR
+=======
 #<<<<<<< HEAD
 
 
 #=======
 ######### ------ Clip India raster into PTR
 #>>>>>>># 4d9ab03e57667950e463cf55feffa270b03fe1aa
+>>>>>>> ad9e5be2649c2ab41c3969a244fef4ed8718d8eb
 #opern raster layer from all India
 
 ras <- raster("F:/BIS_BR_VEG_mosaic/BIS_VG_India_final.tif")
@@ -81,10 +84,37 @@ reclas <- data.frame(habitat = c("-","Sub-tropical broadleaved evergreen","Himal
                                  "Tropical semi-evergreen","Tropical moist deciduous","Temperate coniferous",
                                  "Bamboo sp.","Degraded forest","Grassland"),
                      values = c(0,16,19,22,23,31,40,106,135,173,180,190,191))
+=======
+LC <- as.factor(LC)
+LC.class <-levels(LC)[[1]] #find the different land cover classes contained in the raster
+LC.class[,"landcover"] <- c("-","Sub-tropical broadleaved evergreen","Himalayan moist temperate",
+                             "Tropical semi-evergreen","Tropical moist deciduous","Temperate coniferous",
+                             "Bamboo sp.","Degraded forest","Grassland","missing","Barren land",
+                             "Water body", "Wetland")
+levels(LC) <- LC.class
+LC.class[,"area"] <- tapply(area(LC), LC[], sum)
+LC.class[,"prop.area"] <- LC.class$area/sum(LC.class$area)
+
+#plot
+quartz()
+land_col = c("white","darkgreen","yellowgreen","lightgreen","green","darkorange","orange","yellow",
+             "chocolate4","black","chocolate1","blue", "seagreen")
+plot(LC, legend = T, col = land_col)
+
+
+
+>>>>>>> ad9e5be2649c2ab41c3969a244fef4ed8718d8eb
 ######### ------ Plot camera location into PTR
 ##--- read the necessary maps
+#--- Camera trap locations
 cam.trap <- readOGR("./Shapefiles/2013-14/Camera Trap Locations 2013-14.shp")
 cam.trap$x_coord
+LC <- raster("PTR_LC")
+projection(LC)
+projection(cam.trap)
+
+#--- Grid
+cam.trap.grid <- readOGR("./Shapefiles/2013-14/Grid_Along_Boundary_utm.shp")
 LC <- raster("PTR_LC")
 projection(LC)
 projection(cam.trap)
@@ -92,6 +122,10 @@ projection(cam.trap)
 #change projection for the camera traps
 cam.trap <- spTransform(cam.trap, CRS(projection(LC)))
 plot(LC)
-plot(cam.trap, add=T)
+plot(cam.trap, add=T, col= "red")
 
+<<<<<<< HEAD
+=======
+cam.hab <- extract(LC,cam.trap)
+>>>>>>> ad9e5be2649c2ab41c3969a244fef4ed8718d8eb
 
