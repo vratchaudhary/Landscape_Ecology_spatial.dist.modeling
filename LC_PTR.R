@@ -19,23 +19,23 @@ extent.new=extent(92.55,93.15,26.9,27.3)
 ras2 <- crop(ras,extent.new)
 
 ##inland water
-#PLOT WATER shapefiles polygon
-PTR.INW.P<- readOGR("./IND_wat/IND_water_Areas_dcw.shp")
-project(PTR.INW)
-plot(PTR.INW)
+#PLOT WATER shapefiles polygon (not using this one, there is no polygon within PTR)
+PTR.INW.P<- readOGR("/Users/martaprat/Dropbox/LandscapeEcology - Pakke Tiger Reserve/Shape.files/IND_water_Areas_dcw.shp")
+projection(PTR.INW.P)
+plot(PTR.INW.P)
 #PLOT WATER LINES
-PTR.INW.l<- readOGR("./IND_wat/IND_water_lines_dcw.shp")
-project(PTR.INW.l)
+PTR.INW.l<- readOGR("/Users/martaprat/Dropbox/LandscapeEcology - Pakke Tiger Reserve/Shape.files/IND_water_lines_dcw.shp")
+projection(PTR.INW.l)
 plot(PTR.INW.l)
 
 #open shapefile for PTR
-PTR.limit <- readOGR("./Shapefiles/2013-14/Pakke Tiger Reserve Boundary.shp")
+PTR.limit <- readOGR("/Users/martaprat/Dropbox/LandscapeEcology - Pakke Tiger Reserve/Shape.files/Pakke Tiger Reserve Boundary.shp")
 projection(PTR.limit) #check projection is the same
 plot(PTR.limit)
-plot(PTR.limit, col = "black", add = TRUE)
+plot(PTR.limit, add = TRUE)
 
 
-#crop
+#crop -- LC raster
 PTR.LC <- mask(ras2,PTR.limit)
 unique(PTR.LC) # 13 different cover types
 plot(PTR.LC, col = terrain.colors(13))  
