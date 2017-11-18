@@ -274,16 +274,25 @@ for(i in 1:length(buf.ndvi)){
   sum.var[i,"NDVI"] <- mean(buf.ndvi[[i]],na.rm = T)
 }
 
-#write.csv(sum.var, file ="PTR.covariates.csv")
 
-##### ---- need to finish
 ################# ===================================================== ##################################
 # ---- distance to park boundary
-
-PTR.limit <- readOGR("./Shapefiles/2013-14/Pakke Tiger Reserve Boundary.shp")
+PTR.limit <- readOGR("/Users/martaprat/Dropbox/LandscapeEcology - Pakke Tiger Reserve/Shape.files/Pakke_utm.shp")
 projection(PTR.limit) #check projection is the same
+projection(cam.trap.full)
 plot(PTR.limit)
-plot(PTR.limit, col = "black", add = TRUE)
+plot(cam.trap.full, add = T, col = "red")
+
+#convert the poligon coordinates to spatial points
+PTR.limit.points <- SpatialPoints(PTR.limit@polygons[[1]]@Polygons[[1]]@coords, CRS(projection(PTR.limit)))
+plot(PTR.limit.points)
+for(i in 1:nrow(cam.trap.full@data)){
+  x <- cam.trap.full@coords[i,1]
+  y <- cam.trap.full@coords[i,2]
+  xy <- cbind(x,y)
+  camera <- SpatialPoints(xy, CRS(projection(cam.trap.full))) #obtain the distance one camera at a time
+  sum.var$bound.dist[i] <- gDistance(camera, PTR.limit.points)
+}
 
 
 ################# ===================================================== ##################################
@@ -294,15 +303,25 @@ village.y <- village$lat
 village.xy <- cbind(village.x,village.y)
 village.coord <- SpatialPoints(village.xy, CRS("+init=epsg:3857 +proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0"))
 village.loc <- SpatialPointsDataFrame(village.coord,village)
+village.loc <- spTransform(village.loc, CRS(projection(cam.trap.full)))
 projection(village.loc)
 plot(village.loc)
-# give it the same projection as the cameras
-village.loc <- spTransform(village.loc, proj.utm)
-cam.trap.full <- spTransform(cam.trap.full, proj.utm)
-plot(village.loc,pch = 16, col = "blue")
-plot(cam.trap.full, add = T)
+plot(cam.trap.full, add = T, col = "red")
+
+#save as shapefile
+#writeOGR(village.loc, dsn = "/Users/martaprat/Dropbox/LandscapeEcology - Pakke Tiger Reserve/shape.files/",
+#         layer = "village.loc", driver = "ESRI Shapefile")
+
+#use the same method than above with the boundary 
+for(i in 1:nrow(cam.trap.full@data)){
+  x <- cam.trap.full@coords[i,1]
+  y <- cam.trap.full@coords[i,2]
+  xy <- cbind(x,y)
+  camera <- SpatialPoints(xy, CRS(projection(cam.trap.full))) #obtain the distance one camera at a time
+  sum.var$village.dist[i] <- gDistance(camera, village.loc)
+}
 
 
-
+write.csv(sum.var, file ="PTR.covariates.csv")
 
 
